@@ -12,13 +12,11 @@ test('add to cart, delete item, checkout and payment', async ({page}) => {
   const cartPage = new CartPage(page);
   const orderPage = new OrderPage(page);
 
-  // Clear the cart
   await page.goto('https://demoblaze.com/');
   await homePage.openCart();
   await cartPage.clearCart();
   await expect(cartPage.rows).toHaveCount(0);
 
-  // Add multiple products to cart
   for (const product of order.products) {
     await page.goto('https://demoblaze.com/');
     await homePage.openProduct(product);
@@ -28,17 +26,16 @@ test('add to cart, delete item, checkout and payment', async ({page}) => {
   await homePage.openCart();
   await expect(cartPage.rows).toHaveCount(order.products.length);
 
-  // Delete one product
+
   await cartPage.deleteItem(order.deleteProduct);
   await expect(cartPage.rows).toHaveCount(order.products.length - 1);
   await expect(cartPage.row(order.deleteProduct)).toHaveCount(0);
 
-   // Checkout
+
   await cartPage.placeOrder();
   await expect(orderPage.nameInput).toBeVisible();
 
 
-  // Make payment
   await orderPage.makePayment(customer);
   await expect(orderPage.confirmTitle).toHaveText('Thank you for your purchase!');
   await orderPage.closeConfirmation();
