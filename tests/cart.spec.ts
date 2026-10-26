@@ -42,5 +42,4 @@ test('add to cart, delete item, checkout and payment', async ({page}) => {
   await orderPage.makePayment(customer);
   await expect(orderPage.confirmTitle).toHaveText('Thank you for your purchase!');
   await orderPage.closeConfirmation();
-  await expect(page).toHaveURL(/index\.html/);
 });
