@@ -40,7 +40,6 @@ export class OrderPage {
     }
 
         async closeConfirmation() {
-        // Clicking OK during the popup's opening animation does nothing
         await expect(this.page.locator('.sweet-alert')).toHaveClass(/visible/);
         await this.okButton.click();
     }
